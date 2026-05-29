@@ -1,0 +1,2 @@
+# Block all direct web access to src/
+Require all denied

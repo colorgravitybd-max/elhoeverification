@@ -1,0 +1,2 @@
+# Block all direct web access to storage/
+Require all denied

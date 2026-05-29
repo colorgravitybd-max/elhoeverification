@@ -1,0 +1,74 @@
+# ============================================================================
+# ELHOE Verification - root .htaccess
+# Lives at /public_html/checker/.htaccess
+# ============================================================================
+
+# Force HTTPS
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# Block direct access to sensitive folders & files
+RedirectMatch 403 ^/checker/(config|src|storage|migrations|tools)(/|$)
+RedirectMatch 403 ^/checker/.*\.(env|sql|md|json|lock|sh|bak)$
+
+# Default routing: bare /checker/ goes to /checker/public/
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # If the request is for an existing file/dir under /public, /admin, /api -> serve as-is
+    RewriteCond %{REQUEST_URI} ^/checker/?$
+    RewriteRule ^$ public/index.php [L]
+
+    # Pretty path: /checker/admin -> /checker/admin/index.php
+    RewriteCond %{REQUEST_URI} ^/checker/admin/?$
+    RewriteRule ^admin/?$ admin/index.php [L]
+
+    # Send unknown root-level requests to public
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/checker/(public|admin|api|assets)
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Map /checker/assets/* to /checker/public/assets/* (cleaner URLs)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Caching for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/png         "access plus 30 days"
+    ExpiresByType image/jpeg        "access plus 30 days"
+    ExpiresByType image/svg+xml     "access plus 30 days"
+    ExpiresByType image/webp        "access plus 30 days"
+    ExpiresByType text/css          "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType application/manifest+json "access plus 1 day"
+    ExpiresByType font/woff2        "access plus 365 days"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Default index files
+DirectoryIndex index.php index.html

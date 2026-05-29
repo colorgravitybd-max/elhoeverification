@@ -1,0 +1,13 @@
+# API endpoints - block direct access to bootstrap
+<Files "_bootstrap.php">
+    Require all denied
+</Files>
+
+# Map /api/health.json -> health.json.php
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^health\.json$ health.json.php [L]
+</IfModule>
+
+# Don't list the directory
+Options -Indexes
