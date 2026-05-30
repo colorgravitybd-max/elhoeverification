@@ -217,6 +217,25 @@ final class VerifyService
             'country'    => $customerData['country']    ?? '',
         ]);
 
+        // Email admin (best-effort; failures don't block the registration)
+        try {
+            $product = ProductService::find((int) $code['product_id']);
+            EmailNotifier::notifyRegistration([
+                'customer' => [
+                    'first_name'        => $customerData['first_name'] ?? '',
+                    'last_name'         => $customerData['last_name']  ?? '',
+                    'email'             => $email,
+                    'phone'             => $customerData['phone']      ?? '',
+                    'city'              => $customerData['city']       ?? '',
+                    'consent_marketing' => $customerData['consent_marketing'] ?? 0,
+                ],
+                'product' => $product,
+                'code'    => $code,
+            ]);
+        } catch (\Throwable $e) {
+            Logger::warning('Registration notify failed: ' . $e->getMessage());
+        }
+
         return ['ok' => true, 'message' => 'Registration successful.', 'customer_id' => $customerId];
     }
 
@@ -315,5 +334,35 @@ final class VerifyService
     private static function dispatchClientFailEvent(string $scenario, string $code): void
     {
         // Same: rendered on result.php
+    }
+
+    /**
+     * Public hook used by api/verify.php right after a verification result
+     * is built. Centralised here so the notifier doesn't fire for internal
+     * test calls.
+     */
+    public static function notifyAdmin(array $result, string $rawInput): void
+    {
+        try {
+            $geo = ['country_name' => null, 'city' => null];
+            // Re-use last logged scan_log row to get the resolved geo (cheaper
+            // than another GeoIP lookup; row was inserted milliseconds ago).
+            $row = Database::one(
+                "SELECT ip_address, ip_country_name, ip_city, user_agent
+                 FROM scan_logs ORDER BY id DESC LIMIT 1"
+            );
+            EmailNotifier::notifyScan([
+                'result'     => $result['result']  ?? '',
+                'code_input' => $rawInput,
+                'code'       => $result['code']    ?? null,
+                'product'    => $result['product'] ?? null,
+                'ip'         => $row['ip_address']      ?? Auth::ip(),
+                'city'       => $row['ip_city']         ?? '',
+                'country'    => $row['ip_country_name'] ?? '',
+                'user_agent' => $row['user_agent']      ?? '',
+            ]);
+        } catch (\Throwable $e) {
+            Logger::warning('VerifyService::notifyAdmin failed: ' . $e->getMessage());
+        }
     }
 }

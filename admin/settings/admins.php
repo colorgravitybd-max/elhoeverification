@@ -106,6 +106,7 @@ layout_head('Admin Users', 'settings');
 
 <div class="tabs">
     <a href="<?= e(admin_url('settings/general.php')) ?>">General</a>
+    <a href="<?= e(admin_url('settings/email.php')) ?>">Email</a>
     <a href="<?= e(admin_url('settings/admins.php')) ?>" class="is-active">Admins</a>
     <a href="<?= e(admin_url('settings/backup.php')) ?>">Backup</a>
 </div>

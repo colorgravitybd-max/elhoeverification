@@ -35,6 +35,11 @@ if ($rawCode === '') {
 try {
     $sessionId = session_id() ?: null;
     $result = VerifyService::verify($rawCode, $sessionId);
+
+    // Fire admin notification AFTER the response is built (best-effort).
+    // Wrapped in try/catch so even a misconfigured mailer won't break verify.
+    try { VerifyService::notifyAdmin($result, $rawCode); } catch (\Throwable $e) { /* ignore */ }
+
     api_json($result, 200);
 } catch (\Throwable $e) {
     Logger::error('verify.php fatal: ' . $e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);

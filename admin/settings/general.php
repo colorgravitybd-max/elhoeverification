@@ -53,9 +53,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'brand_primary_color'  => trim((string) ($_POST['brand_primary_color']  ?? '#3E5641')),
                 'brand_accent_color'   => trim((string) ($_POST['brand_accent_color']   ?? '#A4B494')),
                 'brand_bg_color'       => trim((string) ($_POST['brand_bg_color']       ?? '#F5F1E8')),
+                'brand_premium_mode'   => !empty($_POST['brand_premium_mode']) ? '1' : '0',
                 'support_email'        => trim((string) ($_POST['support_email']        ?? '')),
                 'support_whatsapp'     => trim((string) ($_POST['support_whatsapp']     ?? '')),
                 'admin_alert_email'    => trim((string) ($_POST['admin_alert_email']    ?? '')),
+
+                // Distributor card
+                'distributor_enabled'  => !empty($_POST['distributor_enabled']) ? '1' : '0',
+                'distributor_name'     => trim((string) ($_POST['distributor_name']     ?? '')),
+                'distributor_address'  => trim((string) ($_POST['distributor_address']  ?? '')),
+                'distributor_email'    => trim((string) ($_POST['distributor_email']    ?? '')),
+                'distributor_phone'    => trim((string) ($_POST['distributor_phone']    ?? '')),
+                'distributor_whatsapp' => trim((string) ($_POST['distributor_whatsapp'] ?? '')),
+                'distributor_country'  => trim((string) ($_POST['distributor_country']  ?? '')),
             ]);
             AuditLog::record('settings_general_save');
             flash('success', 'Settings saved.');
@@ -76,9 +86,18 @@ $s = [
     'brand_primary_color' => Settings::get('brand_primary_color', '#3E5641'),
     'brand_accent_color'  => Settings::get('brand_accent_color', '#A4B494'),
     'brand_bg_color'      => Settings::get('brand_bg_color', '#F5F1E8'),
+    'brand_premium_mode'  => Settings::get('brand_premium_mode', '1') === '1',
     'support_email'       => Settings::get('support_email', ''),
     'support_whatsapp'    => Settings::get('support_whatsapp', ''),
     'admin_alert_email'   => Settings::get('admin_alert_email', ''),
+
+    'distributor_enabled' => Settings::get('distributor_enabled', '1') === '1',
+    'distributor_name'    => Settings::get('distributor_name', ''),
+    'distributor_address' => Settings::get('distributor_address', ''),
+    'distributor_email'   => Settings::get('distributor_email', ''),
+    'distributor_phone'   => Settings::get('distributor_phone', ''),
+    'distributor_whatsapp'=> Settings::get('distributor_whatsapp', ''),
+    'distributor_country' => Settings::get('distributor_country', ''),
 ];
 
 layout_head('General Settings', 'settings');
@@ -86,6 +105,7 @@ layout_head('General Settings', 'settings');
 
 <div class="tabs">
     <a href="<?= e(admin_url('settings/general.php')) ?>" class="is-active">General</a>
+    <a href="<?= e(admin_url('settings/email.php')) ?>">Email</a>
     <a href="<?= e(admin_url('settings/admins.php')) ?>">Admins</a>
     <a href="<?= e(admin_url('settings/backup.php')) ?>">Backup</a>
 </div>
@@ -125,6 +145,53 @@ layout_head('General Settings', 'settings');
             <div class="field">
                 <label>Background</label>
                 <input type="color" name="brand_bg_color" value="<?= e($s['brand_bg_color']) ?>">
+            </div>
+        </div>
+
+        <label class="checkbox-field" style="margin-top:6px">
+            <input type="checkbox" name="brand_premium_mode" value="1" <?= $s['brand_premium_mode'] ? 'checked' : '' ?>>
+            Enable premium visual mode (gold accents, refined typography, organic ornaments)
+        </label>
+
+        <hr class="divider">
+
+        <h2>Local Distributor</h2>
+        <p class="muted">Shown to customers below the verification result. Use this to provide local contact info for any region.</p>
+
+        <label class="checkbox-field">
+            <input type="checkbox" name="distributor_enabled" value="1" <?= $s['distributor_enabled'] ? 'checked' : '' ?>>
+            Show distributor block on customer page
+        </label>
+
+        <div class="field-row">
+            <div class="field">
+                <label>Distributor Name</label>
+                <input name="distributor_name" value="<?= e($s['distributor_name']) ?>" maxlength="120" placeholder="ELHOE">
+            </div>
+            <div class="field">
+                <label>Country</label>
+                <input name="distributor_country" value="<?= e($s['distributor_country']) ?>" maxlength="60" placeholder="Bangladesh">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Address</label>
+            <textarea name="distributor_address" rows="2"><?= e($s['distributor_address']) ?></textarea>
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label>Email</label>
+                <input name="distributor_email" type="email" value="<?= e($s['distributor_email']) ?>" placeholder="bd@elhoe.com">
+            </div>
+            <div class="field">
+                <label>Phone</label>
+                <input name="distributor_phone" value="<?= e($s['distributor_phone']) ?>" placeholder="+8801990800951">
+            </div>
+            <div class="field">
+                <label>WhatsApp</label>
+                <input name="distributor_whatsapp" value="<?= e($s['distributor_whatsapp']) ?>" placeholder="+8801990800951">
+                <p class="field-help">Include country code; the page renders a WhatsApp button.</p>
             </div>
         </div>
 

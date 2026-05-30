@@ -26,6 +26,7 @@ layout_head('Backup', 'settings');
 
 <div class="tabs">
     <a href="<?= e(admin_url('settings/general.php')) ?>">General</a>
+    <a href="<?= e(admin_url('settings/email.php')) ?>">Email</a>
     <a href="<?= e(admin_url('settings/admins.php')) ?>">Admins</a>
     <a href="<?= e(admin_url('settings/backup.php')) ?>" class="is-active">Backup</a>
 </div>

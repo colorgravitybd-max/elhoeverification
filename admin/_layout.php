@@ -112,7 +112,6 @@ if (!function_exists('admin_menu')) {
         return $items;
     }
 }
-
 if (!function_exists('svg_icon')) {
     function svg_icon(string $name): string
     {
