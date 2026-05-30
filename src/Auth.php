@@ -13,8 +13,8 @@ final class Auth
         elhoe_start_session();
 
         $user = Database::one(
-            "SELECT * FROM admin_users WHERE username = :u OR email = :u LIMIT 1",
-            [':u' => $username]
+            "SELECT * FROM admin_users WHERE username = :user OR email = :email LIMIT 1",
+            [':user' => $username, ':email' => $username]
         );
 
         if (!$user) {
