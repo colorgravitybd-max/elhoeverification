@@ -86,6 +86,18 @@ a:hover { color: var(--color-primary-dark); text-decoration: underline; text-und
 
 img { max-width: 100%; display: block; }
 
+/* Bulletproof inline-SVG sizing: prevents browsers from rendering icons at
+   their intrinsic size (300x150) when no explicit width/height is set.
+   Each icon below is given exact dimensions; this is the safety net. */
+svg { max-width: 100%; height: auto; }
+.icon-btn svg,
+.trust-item svg,
+.result-icon svg,
+.dist-icon,
+.dist-whatsapp svg,
+.faq summary::after,
+.btn svg { max-width: none; }
+
 .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
@@ -143,6 +155,13 @@ img { max-width: 100%; display: block; }
     max-width: 220px;
     opacity: 0.85;
     pointer-events: none;
+    line-height: 0;
+}
+.hero-ornament svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 220px;
 }
 .hero-eyebrow {
     display: flex;

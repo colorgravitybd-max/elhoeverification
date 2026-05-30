@@ -67,7 +67,7 @@ $csrf = CSRF::token();
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 
-<link rel="stylesheet" href="<?= e($appUrlPath) ?>/public/assets/css/style.css?v=2">
+<link rel="stylesheet" href="<?= e($appUrlPath) ?>/public/assets/css/style.css?v=3">
 
 <style>
 :root {
@@ -101,7 +101,7 @@ $csrf = CSRF::token();
     <section class="hero">
         <?php if ($premiumMode): ?>
         <div class="hero-ornament" aria-hidden="true">
-          <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+          <svg width="220" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
             <path d="M100 12 C 60 12, 30 32, 30 52" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5"/>
             <path d="M100 12 C 140 12, 170 32, 170 52" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5"/>
             <ellipse cx="46" cy="46" rx="9" ry="3.5" fill="currentColor" opacity="0.55"/>
@@ -154,17 +154,17 @@ $csrf = CSRF::token();
 
     <section class="trust-row">
         <div class="trust-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 6v6c0 5 3.6 9.4 8 10 4.4-.6 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.6 9.4 8 10 4.4-.6 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
             <h3>Genuine</h3>
             <p>Every code is unique to a verified <?= e($brand) ?> product.</p>
         </div>
         <div class="trust-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
             <h3>Instant</h3>
             <p>Verification takes less than a second.</p>
         </div>
         <div class="trust-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
             <h3>Trusted</h3>
             <p>Used by thousands of customers worldwide.</p>
         </div>
@@ -181,7 +181,7 @@ $csrf = CSRF::token();
             <div class="dist-grid">
                 <?php if ($distAddress): ?>
                 <div class="dist-row">
-                    <svg class="dist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <svg class="dist-icon" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                     <div>
                         <p class="dist-label">Address</p>
                         <p class="dist-val"><?= nl2br(e($distAddress)) ?></p>
@@ -191,7 +191,7 @@ $csrf = CSRF::token();
 
                 <?php if ($distEmail): ?>
                 <div class="dist-row">
-                    <svg class="dist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                    <svg class="dist-icon" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
                     <div>
                         <p class="dist-label">Email</p>
                         <p class="dist-val"><a href="mailto:<?= e($distEmail) ?>"><?= e($distEmail) ?></a></p>
@@ -201,7 +201,7 @@ $csrf = CSRF::token();
 
                 <?php if ($distPhone): ?>
                 <div class="dist-row">
-                    <svg class="dist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72a2 2 0 0 1 1.72 2Z"/></svg>
+                    <svg class="dist-icon" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72a2 2 0 0 1 1.72 2Z"/></svg>
                     <div>
                         <p class="dist-label">Call</p>
                         <p class="dist-val"><a href="<?= e($telLink) ?>"><?= e($distPhone) ?></a></p>
@@ -212,7 +212,7 @@ $csrf = CSRF::token();
 
             <?php if ($waLink): ?>
             <a class="dist-whatsapp" href="<?= e($waLink) ?>" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.85 11.85 0 0 0 12.06 0C5.5 0 .19 5.31.19 11.86c0 2.09.55 4.13 1.59 5.93L0 24l6.36-1.66a11.86 11.86 0 0 0 5.7 1.45h.01c6.55 0 11.86-5.31 11.86-11.86 0-3.17-1.23-6.15-3.41-8.45ZM12.07 21.78c-1.78 0-3.52-.48-5.04-1.38l-.36-.21-3.77.99 1-3.67-.23-.38a9.86 9.86 0 1 1 18.32-5.21c0 5.45-4.43 9.86-9.92 9.86Zm5.43-7.39c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.95 1.17c-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.79-1.68-2.09-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.34Z"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.85 11.85 0 0 0 12.06 0C5.5 0 .19 5.31.19 11.86c0 2.09.55 4.13 1.59 5.93L0 24l6.36-1.66a11.86 11.86 0 0 0 5.7 1.45h.01c6.55 0 11.86-5.31 11.86-11.86 0-3.17-1.23-6.15-3.41-8.45ZM12.07 21.78c-1.78 0-3.52-.48-5.04-1.38l-.36-.21-3.77.99 1-3.67-.23-.38a9.86 9.86 0 1 1 18.32-5.21c0 5.45-4.43 9.86-9.92 9.86Zm5.43-7.39c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.95 1.17c-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.79-1.68-2.09-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.34Z"/></svg>
                 <span>Chat on WhatsApp</span>
             </a>
             <?php endif; ?>
@@ -249,7 +249,7 @@ $csrf = CSRF::token();
     </div>
 </footer>
 
-<script src="<?= e($appUrlPath) ?>/public/assets/js/checker.js?v=2" defer></script>
+<script src="<?= e($appUrlPath) ?>/public/assets/js/checker.js?v=3" defer></script>
 <script>
 window.ELHOE_CONFIG = {
     // Path-only (no host) so the API call stays SAME-ORIGIN regardless of

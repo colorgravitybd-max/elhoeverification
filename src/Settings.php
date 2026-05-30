@@ -22,11 +22,15 @@ final class Settings
         return self::$cache;
     }
 
-    public static function get(string $key, string $default = ''): string
+    public static function get(string $key, $default = ''): string
     {
         $all = self::all();
         $v = $all[$key] ?? null;
-        return ($v === null || $v === '') ? $default : (string) $v;
+        if ($v === null || $v === '') {
+            // Accept any scalar default (string, int, float, bool) and coerce to string.
+            return $default === null ? '' : (is_scalar($default) ? (string) $default : '');
+        }
+        return (string) $v;
     }
 
     public static function set(string $key, string $value): void
