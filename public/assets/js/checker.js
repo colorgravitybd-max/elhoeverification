@@ -8,7 +8,10 @@
     'use strict';
 
     const cfg = window.ELHOE_CONFIG || {};
-    const API = cfg.apiBase || (location.origin + '/checker/api');
+    // API base must be SAME-ORIGIN to avoid CORS. We accept either an
+    // absolute URL or a path; if it's a path, we leave it as-is so the
+    // browser resolves it against the page's origin.
+    const API = cfg.apiBase || '/checker/api';
 
     const $ = (sel, root = document) => root.querySelector(sel);
     const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -413,10 +416,12 @@
         return `${parseInt(dd,10)} ${months[mi] || m} ${y}`;
     }
 
-    // Register service worker (PWA)
+    // Register service worker (PWA) - use a path-relative URL so it works
+    // on both elhoe.com and www.elhoe.com without CORS issues.
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/checker/service-worker.js').catch(() => {});
+            const swPath = (cfg.apiBase || '/checker/api').replace(/\/api$/, '') + '/service-worker.js';
+            navigator.serviceWorker.register(swPath).catch(() => {});
         });
     }
 })();

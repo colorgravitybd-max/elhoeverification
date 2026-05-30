@@ -1,8 +1,4 @@
 <?php
-/**
- * ELHOE Verification - public landing & verify page.
- * Mobile-first. Numeric input. PWA-ready.
- */
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/config.php';
@@ -22,6 +18,15 @@ $primaryColor = Settings::get('brand_primary_color', '#3E5641');
 $accentColor  = Settings::get('brand_accent_color', '#A4B494');
 $bgColor      = Settings::get('brand_bg_color', '#F5F1E8');
 
+// Derive the path component of APP_URL (e.g. "/checker") so we can build
+// SAME-ORIGIN relative URLs. This avoids CORS errors when visitors arrive
+// on the site via either elhoe.com or www.elhoe.com.
+$appUrlPath = '/checker';
+$parsed = parse_url((string) env('APP_URL', ''));
+if (isset($parsed['path']) && $parsed['path'] !== '') {
+    $appUrlPath = '/' . trim($parsed['path'], '/');
+}
+
 // Pre-fill code from QR scan ?code=xxxxx
 $prefill = isset($_GET['code']) ? preg_replace('/[^0-9]/', '', (string) $_GET['code']) : '';
 $prefill = is_string($prefill) ? substr($prefill, 0, 20) : '';
@@ -38,15 +43,15 @@ $csrf = CSRF::token();
 <meta name="theme-color" content="<?= e($primaryColor) ?>">
 <meta name="csrf-token" content="<?= e($csrf) ?>">
 
-<link rel="manifest" href="<?= e(asset_url('../manifest.json')) ?>">
-<link rel="icon" type="image/svg+xml" href="<?= e(asset_url('images/favicon.svg')) ?>">
-<link rel="apple-touch-icon" href="<?= e(asset_url('images/apple-touch-icon.png')) ?>">
+<link rel="manifest" href="<?= e($appUrlPath) ?>/manifest.json">
+<link rel="icon" type="image/svg+xml" href="<?= e($appUrlPath) ?>/public/assets/images/favicon.svg">
+<link rel="apple-touch-icon" href="<?= e($appUrlPath) ?>/public/assets/images/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 
-<link rel="stylesheet" href="<?= e(asset_url('css/style.css')) ?>?v=1">
+<link rel="stylesheet" href="<?= e($appUrlPath) ?>/public/assets/css/style.css?v=2">
 
 <style>
 :root {
@@ -163,10 +168,12 @@ $csrf = CSRF::token();
     </div>
 </footer>
 
-<script src="<?= e(asset_url('js/checker.js')) ?>?v=1" defer></script>
+<script src="<?= e($appUrlPath) ?>/public/assets/js/checker.js?v=2" defer></script>
 <script>
 window.ELHOE_CONFIG = {
-    apiBase: <?= json_encode(rtrim((string) env('APP_URL', ''), '/') . '/api') ?>,
+    // Path-only (no host) so the API call stays SAME-ORIGIN regardless of
+    // whether the user lands on elhoe.com or www.elhoe.com.
+    apiBase: <?= json_encode($appUrlPath . '/api') ?>,
     csrfToken: <?= json_encode($csrf) ?>,
     supportEmail: <?= json_encode($supportEmail) ?>,
     autoVerify: <?= $prefill !== '' ? 'true' : 'false' ?>
