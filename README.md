@@ -2,7 +2,7 @@
 
 Standalone product authenticity verification system for the **ELHOE** skincare brand. Replaces a WordPress plugin so the verification page keeps running even when WordPress is down.
 
-**Live URL:** `https://www.elhoe.com/checker`
+**Live URL:** `https://elhoe.com/checker`
 **Stack:** PHP 8.1+ · MySQL · Vanilla JS · HTML5 · CSS3 (eco/organic theme)
 **Hosting:** Hostinger Business hPanel
 **No Composer · No frameworks · Drop-folder + import-SQL deployment**
@@ -19,7 +19,7 @@ The previous WordPress plugin worked, but every time WordPress crashed, plugin-c
 
 - 🛡️ **Independent of WordPress** — keeps working when WP doesn't
 - 📱 **Mobile-first PWA** — installable, numeric-only keyboard
-- 🔢 **Smart input handling** — strips junk like `https://www.elhoe.com/checker` automatically, "Did you mean?" suggestions
+- 🔢 **Smart input handling** — strips junk like `https://elhoe.com/checker` automatically, "Did you mean?" suggestions
 - 🛒 **Complete Your Routine** — drives repurchases via product links back to your WP shop
 - 📊 **Analytics dashboard** — KPIs, charts, geo, counterfeit watchlist
 - 🚨 **Risk scoring engine** — auto-quarantines suspicious codes
@@ -88,7 +88,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for the complete step-by-step Hostinger wal
 3. Copy `config/.env.example` → `config/.env`, fill DB creds and `APP_KEY`
 4. phpMyAdmin → Import → `migrations/000_schema.sql` then `002_seed_admin.sql`
 5. Add 5-line bypass rule to root `.htaccess` (above WordPress block)
-6. Visit `https://www.elhoe.com/checker` ✓
+6. Visit `https://elhoe.com/checker` ✓
 7. Log in at `/checker/admin` with `admin / ChangeMe123!` and change the password
 
 ---

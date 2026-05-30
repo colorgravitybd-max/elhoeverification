@@ -1,6 +1,6 @@
 # ELHOE Verification — Hostinger Deployment Guide
 
-This guide walks through deploying the ELHOE Verification System to **Hostinger Business** hosting (hPanel) so it serves at `https://www.elhoe.com/checker`.
+This guide walks through deploying the ELHOE Verification System to **Hostinger Business** hosting (hPanel) so it serves at `https://elhoe.com/checker`.
 
 **Total time:** ~15–20 minutes
 **Required:** hPanel access, PHP 8.1+, MySQL database, FTP or hPanel File Manager
@@ -80,7 +80,7 @@ Most files should be **644**, folders **755**. The `storage/` folder needs **775
 
 ```ini
 APP_NAME="ELHOE Product Verification"
-APP_URL="https://www.elhoe.com/checker"
+APP_URL="https://elhoe.com/checker"
 APP_ENV="production"
 APP_DEBUG="false"
 APP_TIMEZONE="Asia/Dhaka"
@@ -166,13 +166,22 @@ This creates:
 
 ## Step 7 — Configure Routing for `/checker`
 
-WordPress would normally try to handle `/checker` as a page. We need to bypass WordPress for the checker URL.
+WordPress would normally try to handle `/checker` as a page. We need to bypass WordPress for the checker URL **AND** force a single canonical hostname (no-www) so the page never serves out of two cache buckets.
 
 1. In File Manager, open `/public_html/.htaccess` (the **root** WordPress one, NOT the one inside `/checker/`)
-2. Add these lines **at the very top** (before `# BEGIN WordPress`):
+2. Add these two blocks **at the very top** (before `# BEGIN WordPress`):
 
 ```apache
-# === ELHOE Verification Bypass (must be FIRST) ===
+# === Force canonical hostname: www.elhoe.com -> elhoe.com ===
+# (Eliminates split caching, CORS oddities, and "old page" issues.)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^www\.elhoe\.com$ [NC]
+    RewriteRule ^(.*)$ https://elhoe.com/$1 [R=301,L]
+</IfModule>
+# === End Force canonical ===
+
+# === ELHOE Verification Bypass (must come before WordPress) ===
 <IfModule mod_rewrite.c>
     RewriteEngine On
     # Don't let WordPress handle anything under /checker/
@@ -185,15 +194,15 @@ WordPress would normally try to handle `/checker` as a page. We need to bypass W
 
 3. **Save**.
 
-This tells Apache: "Anything under `/checker/` is its own app — don't pass it to WordPress."
+This tells Apache: "If anyone visits `www.elhoe.com/...`, send them to `elhoe.com/...` first. Then anything under `/checker/` is its own app — don't pass it to WordPress."
 
-> ✅ **Test:** Visit `https://www.elhoe.com/checker` in your browser. You should see the verification page (eco-themed, with a code input field).
+> ✅ **Test:** Visit `https://elhoe.com/checker` in your browser. You should see the verification page (eco-themed, with a code input field). Visit `https://www.elhoe.com/checker` — your browser URL should automatically flip to the non-www version.
 
 ---
 
 ## Step 8 — Verify Customer-Facing Page
 
-1. Open https://www.elhoe.com/checker
+1. Open https://elhoe.com/checker
 2. You should see:
    - "Authenticate your ELHOE product" heading
    - Code input field (numeric keyboard on mobile)
@@ -206,7 +215,7 @@ This tells Apache: "Anything under `/checker/` is its own app — don't pass it 
 
 ## Step 9 — First Admin Login
 
-1. Open https://www.elhoe.com/checker/admin
+1. Open https://elhoe.com/checker/admin
 2. Sign in:
    - Username: `admin`
    - Password: `ChangeMe123!`
@@ -273,8 +282,8 @@ Cleanup expired rate limits, old scan logs, etc. Run daily.
 
 Your site should already have SSL (Hostinger Business includes free Let's Encrypt SSL).
 
-Verify: https://www.elhoe.com/checker should load with a padlock icon. If it doesn't:
-- hPanel → **Security → SSL** → ensure SSL is active for `www.elhoe.com`
+Verify: https://elhoe.com/checker should load with a padlock icon. If it doesn't:
+- hPanel → **Security → SSL** → ensure SSL is active for `elhoe.com` (and the `www` alias)
 - Force HTTPS is enabled in the included `.htaccess`
 
 ---
@@ -291,7 +300,7 @@ Verify: https://www.elhoe.com/checker should load with a padlock icon. If it doe
 | `migrations/000_schema.sql` imported | ☐ |
 | `migrations/002_seed_admin.sql` imported | ☐ |
 | Root `.htaccess` updated to bypass WP for `/checker` | ☐ |
-| https://www.elhoe.com/checker loads correctly | ☐ |
+| https://elhoe.com/checker loads correctly | ☐ |
 | Test verification with `729879234926` works | ☐ |
 | Logged into admin and changed default password | ☐ |
 | Settings → General configured (brand, support email) | ☐ |
@@ -333,7 +342,7 @@ Verify: https://www.elhoe.com/checker should load with a padlock icon. If it doe
 - Hostinger live chat (24/7) for hosting / DNS / SSL issues
 - Project source: `colorgravitybd-max/elhoeverification` on GitHub
 - Logs: `storage/logs/app-YYYY-MM-DD.log` and `storage/logs/php_errors.log`
-- Health check: https://www.elhoe.com/checker/api/health.json
+- Health check: https://elhoe.com/checker/api/health.json
 
 ---
 

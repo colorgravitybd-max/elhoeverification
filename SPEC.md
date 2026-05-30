@@ -3,7 +3,7 @@
 **Status:** Implemented (v1.0)
 **Owner:** ELHOE Skincare
 **Repository:** colorgravitybd-max/elhoeverification
-**Public URL:** https://www.elhoe.com/checker
+**Public URL:** https://elhoe.com/checker
 **Hosting:** Hostinger Business hPanel
 **Stack:** PHP 8.1+ · MySQL · Vanilla JS · HTML5 · CSS3
 **No Composer · No frameworks · Pure PHP**
@@ -13,7 +13,7 @@
 ## 1. Goals
 
 1. **Reliability** — independent of WordPress. If WP is down, `/checker` keeps working.
-2. **Same URL** — customers continue using `www.elhoe.com/checker` (no link / QR-code changes).
+2. **Same URL** — customers continue using `elhoe.com/checker` (no link / QR-code changes).
 3. **Feature parity** — replicate every feature of the existing WP plugin.
 4. **Improvements** — smart input handling, "did you mean?" suggestions, risk scoring, Meta CAPI, eco theme.
 5. **Drop-folder deployment** — upload + import SQL = live. Zero CLI required.
